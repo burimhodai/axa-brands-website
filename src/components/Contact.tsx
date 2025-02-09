@@ -4,7 +4,7 @@ export const Contact = () => {
   return (
     <section
       id="na kontakto"
-      className="flex bg-primary h-screen py-10 items-center"
+      className="flex bg-primary h-full py-10 items-center"
     >
       <div className="container mx-auto px-4 sm:px-8">
         {/* Header */}
