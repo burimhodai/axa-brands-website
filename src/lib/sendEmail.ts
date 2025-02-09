@@ -10,10 +10,10 @@ export const sendEmail = (
     })
     .then(
       () => {
-        console.log("SUCCESS!");
+        console.log("Email successfully sent");
       },
       (error) => {
-        console.log("FAILED...", error.text);
+        console.log("Email was not sent", error.text);
         throw error;
       }
     );
