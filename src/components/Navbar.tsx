@@ -86,7 +86,7 @@ export const Navbar = () => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <div className="flex flex-col h-full">
-              <div className="flex flex-col items-start flex-grow pt-[30vh]">
+              <div className="flex flex-col items-start flex-grow pt-[25vh]">
                 {NAV_ITEMS?.map((item, index) => (
                   <motion.a
                     className="font-bold text-5xl uppercase hover:cursor-pointer text-white transition-colors mb-0" // Removed margin bottom
