@@ -12,11 +12,12 @@ export const Contact = () => {
 
     if (form.current) {
       try {
-        await sendEmail(e, form.current);
+        await sendEmail(form.current); // Now it only expects 1 argument
         setMessage("Mesazhi u dërgua me sukses!");
         setIsSuccess(true);
         form.current.reset();
       } catch (error) {
+        console.error("Email sending failed:", error);
         setMessage("Diçka shkoi keq. Ju lutemi provoni përsëri.");
         setIsSuccess(false);
       }
@@ -31,11 +32,9 @@ export const Contact = () => {
       <div className="container mx-auto px-4 sm:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          {/* Title */}
           <h2 className="text-5xl md:text-5xl lg:text-7xl font-black text-secondary">
             FOLIM?
           </h2>
-          {/* Subtitle */}
           <p className="text-lg sm:text-xl font-medium text-white mt-4">
             A ini të interesaum të{" "}
             <span className="whitespace-nowrap text-white">bisedoni</span> ose
@@ -55,10 +54,13 @@ export const Contact = () => {
             method="post"
             className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/3"
           >
-            {/* Name and Email Fields in a row */}
+            {/* Name and Email Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label htmlFor="name-2" className="mb-2 font-medium text-white">
+                <label
+                  htmlFor="from_name"
+                  className="mb-2 font-medium text-white"
+                >
                   Emri
                 </label>
                 <input
@@ -66,12 +68,14 @@ export const Contact = () => {
                   id="from_name"
                   name="from_name"
                   className="block w-full bg-secondary text-white h-12 px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
-                  placeholder=""
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="mb-2 font-medium text-white">
+                <label
+                  htmlFor="from_email"
+                  className="mb-2 font-medium text-white"
+                >
                   Emaili jot
                 </label>
                 <input
@@ -79,6 +83,7 @@ export const Contact = () => {
                   id="from_email"
                   name="from_email"
                   className="block w-full h-12 px-4 py-2 border border-solid border-secondary text-sm bg-secondary text-white focus:outline-none ring-2 ring-secondary"
+                  required
                 />
               </div>
             </div>
@@ -91,9 +96,9 @@ export const Contact = () => {
               <textarea
                 id="message"
                 name="message"
-                placeholder=""
                 maxLength={5000}
                 className="block w-full bg-secondary text-white min-h-36 h-auto px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
+                required
               ></textarea>
             </div>
 
@@ -109,7 +114,7 @@ export const Contact = () => {
               {message && (
                 <p
                   className={`mt-4 text-sm ${
-                    isSuccess ? "text-secondary" : "text-white"
+                    isSuccess ? "text-green-400" : "text-red-400"
                   }`}
                 >
                   {message}
