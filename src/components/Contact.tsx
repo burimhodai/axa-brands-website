@@ -1,10 +1,32 @@
+import { useRef, useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { sendEmail } from "@/lib/sendEmail";
 
 export const Contact = () => {
+  const form = useRef<HTMLFormElement>(null);
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (form.current) {
+      try {
+        await sendEmail(e, form.current);
+        setMessage("Mesazhi u dërgua me sukses!");
+        setIsSuccess(true);
+        form.current.reset();
+      } catch (error) {
+        setMessage("Diçka shkoi keq. Ju lutemi provoni përsëri.");
+        setIsSuccess(false);
+      }
+    }
+  };
+
   return (
     <section
       id="na kontakto"
-      className="flex bg-primary h-full py-10 items-center"
+      className="flex bg-primary h-screen py-10 items-center"
     >
       <div className="container mx-auto px-4 sm:px-8">
         {/* Header */}
@@ -27,48 +49,38 @@ export const Contact = () => {
         {/* Form */}
         <div className="flex justify-center">
           <form
-            name="wf-form-name"
-            method="get"
+            ref={form}
+            onSubmit={handleSubmit}
+            name="contact-form"
+            method="post"
             className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/3"
           >
-            {/* Name Fields */}
-            <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Name and Email Fields in a row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label htmlFor="name-2" className="mb-2 font-medium text-white">
                   Emri
                 </label>
                 <input
                   type="text"
-                  id="name-2"
-                  className="block w-full h-12 px-4 py-2 border border-solid border-black text-sm text-black focus:outline-none ring-2 ring-secondary"
+                  id="from_name"
+                  name="from_name"
+                  className="block w-full bg-secondary text-white h-12 px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
                   placeholder=""
                   required
                 />
               </div>
               <div>
-                <label htmlFor="name-3" className="mb-2 font-medium text-white">
-                  Mbiemri
+                <label htmlFor="email" className="mb-2 font-medium text-white">
+                  Emaili jot
                 </label>
                 <input
-                  type="text"
-                  id="name-3"
-                  className="block w-full h-12 px-4 py-2 border border-solid border-black text-sm text-black focus:outline-none ring-2 ring-secondary"
-                  placeholder=""
-                  required
+                  type="email"
+                  id="from_email"
+                  name="from_email"
+                  className="block w-full h-12 px-4 py-2 border border-solid border-secondary text-sm bg-secondary text-white focus:outline-none ring-2 ring-secondary"
                 />
               </div>
-            </div>
-
-            {/* Email Field */}
-            <div className="mb-6">
-              <label htmlFor="email" className="mb-2 font-medium text-white">
-                Emaili jot
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="block w-full h-12 px-4 py-2 border border-solid border-black text-sm text-black focus:outline-none ring-2 ring-secondary"
-              />
             </div>
 
             {/* Message Field */}
@@ -78,22 +90,31 @@ export const Contact = () => {
               </label>
               <textarea
                 id="message"
+                name="message"
                 placeholder=""
                 maxLength={5000}
-                name="message"
-                className="block w-full min-h-36 h-auto px-4 py-2 border border-solid border-black text-sm text-black focus:outline-none ring-2 ring-secondary"
+                className="block w-full bg-secondary text-white min-h-36 h-auto px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
               ></textarea>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center items-center">
+            {/* Submit Button and Message */}
+            <div className="flex flex-col items-center">
               <button
                 type="submit"
-                className="group flex flex-row gap-2 py-2 px-8 bg-secondary border-5 border-secondary font-bold text-primary hover:bg-white hover:text-secondary transition-colors w-auto self-start mt-4"
+                className="hover:cursor-pointer group flex flex-row gap-2 py-2 px-8 bg-secondary border-5 border-secondary font-bold text-primary hover:bg-white hover:text-secondary transition-colors w-auto mt-4"
               >
-                Dërgo Mesazh
+                Dërgo mesazhin
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
               </button>
+              {message && (
+                <p
+                  className={`mt-4 text-sm ${
+                    isSuccess ? "text-secondary" : "text-white"
+                  }`}
+                >
+                  {message}
+                </p>
+              )}
             </div>
           </form>
         </div>
