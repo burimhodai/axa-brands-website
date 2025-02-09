@@ -6,8 +6,6 @@ import { Hero } from "./components/Hero";
 import { Navbar } from "./components/Navbar";
 import { Services } from "./components/Services";
 
-//navbar: ballina, rreth nesh, klientet, sherbimet, kontakt
-
 function App() {
   return (
     <>
