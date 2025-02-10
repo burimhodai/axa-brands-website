@@ -18,7 +18,7 @@ import Lartana from "./Lartana.svg";
 import Liney from "./Liney.svg";
 import MarmoFix from "./MarmoFix.svg";
 import Mercure from "./Mercure.svg";
-import Metal4 from "./Metal4.svg";
+// import Metal4 from "./Metal4.svg";
 import Phoenix from "./Phoenix.svg";
 import Possible from "./Possible.svg";
 import PROAfroVal from "./PROAfroVal.svg";
@@ -27,7 +27,7 @@ import Renova from "./Renova.svg";
 import RoletLux from "./RoletLux.svg";
 import Shpendi from "./Shpendi.svg";
 import Telem from "./Telemaxx.svg";
-import ThreePark from "./ThreePark.svg";
+// import ThreePark from "./ThreePark.svg";
 import Ultra from "./Ultra.svg";
 import ValkLogistik from "./ValkLogistik.svg";
 import Verona from "./Verona.svg";
@@ -59,7 +59,7 @@ export {
   Liney,
   MarmoFix,
   Mercure,
-  Metal4,
+  // Metal4,
   Phoenix,
   Possible,
   PROAfroVal,
@@ -68,7 +68,7 @@ export {
   RoletLux,
   Shpendi,
   Telem,
-  ThreePark,
+  // ThreePark,
   Ultra,
   ValkLogistik,
   Verona,

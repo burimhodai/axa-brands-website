@@ -1,11 +1,36 @@
 import { useRef, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { sendEmail } from "@/lib/sendEmail";
+import { motion, useInView } from "framer-motion";
 
 export const Contact = () => {
   const form = useRef<HTMLFormElement>(null);
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  // Container animation for the entire form
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+    },
+  };
+
+  // Text and button animation (slide from below)
+  const textVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  // Message field animation (slide from below)
+  const messageVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,36 +52,51 @@ export const Contact = () => {
   return (
     <section
       id="na kontakto"
-      className="flex bg-primary h-screen py-10 items-center"
+      className="flex bg-primary h-fit 2xl:py-32 py-10 items-center"
+      ref={ref}
     >
       <div className="container mx-auto px-4 sm:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-5xl md:text-5xl lg:text-7xl font-black text-secondary">
+        <motion.div
+          className="text-center mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.h2
+            className="text-5xl md:text-5xl lg:text-7xl font-black text-secondary"
+            variants={textVariants}
+          >
             FOLIM?
-          </h2>
-          <p className="text-lg sm:text-xl font-medium text-white mt-4">
+          </motion.h2>
+          <motion.p
+            className="text-lg sm:text-xl font-medium text-white mt-4"
+            variants={textVariants}
+          >
             A ini të interesaum të{" "}
             <span className="whitespace-nowrap text-white">bisedoni</span> ose
             të{" "}
             <span className="whitespace-nowrap text-white">bashkëpunoni</span>?
             <br />
             Ne ina ktau për të ju ndajf. Çoje ni mesazh.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Form */}
         <div className="flex justify-center">
-          <form
+          <motion.form
             ref={form}
             onSubmit={handleSubmit}
             name="contact-form"
             method="post"
             className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/3"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
           >
             {/* Name and Email Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
+              <motion.div variants={messageVariants}>
                 <label
                   htmlFor="from_name"
                   className="mb-2 font-medium text-white"
@@ -70,8 +110,8 @@ export const Contact = () => {
                   className="block w-full bg-secondary text-white h-12 px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
                   required
                 />
-              </div>
-              <div>
+              </motion.div>
+              <motion.div variants={messageVariants}>
                 <label
                   htmlFor="from_email"
                   className="mb-2 font-medium text-white"
@@ -85,11 +125,11 @@ export const Contact = () => {
                   className="block w-full h-12 px-4 py-2 border border-solid border-secondary text-sm bg-secondary text-white focus:outline-none ring-2 ring-secondary"
                   required
                 />
-              </div>
+              </motion.div>
             </div>
 
             {/* Message Field */}
-            <div className="mb-6">
+            <motion.div className="mb-6" variants={messageVariants}>
               <label htmlFor="message" className="mb-2 font-medium text-white">
                 Mesazhi
               </label>
@@ -100,10 +140,13 @@ export const Contact = () => {
                 className="block w-full bg-secondary text-white min-h-36 h-auto px-4 py-2 border border-solid border-secondary text-sm focus:outline-none ring-2 ring-secondary"
                 required
               ></textarea>
-            </div>
+            </motion.div>
 
             {/* Submit Button and Message */}
-            <div className="flex flex-col items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              variants={messageVariants}
+            >
               <button
                 type="submit"
                 className="hover:cursor-pointer group flex flex-row gap-2 py-2 px-8 bg-secondary border-5 border-secondary font-bold text-primary hover:bg-white hover:text-secondary transition-colors w-auto mt-4"
@@ -120,8 +163,8 @@ export const Contact = () => {
                   {message}
                 </p>
               )}
-            </div>
-          </form>
+            </motion.div>
+          </motion.form>
         </div>
       </div>
     </section>
